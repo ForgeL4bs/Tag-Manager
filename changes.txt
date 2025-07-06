@@ -4,8 +4,8 @@ Editor is working fine
 Save tags button is not working -- done
 Settings menu options are not working
 Add more options like exclude character tags
-Preview is not fixed yet both Tagging and editor tab
-Progress bar is trash
+Preview is not fixed yet both Tagging and editor tab --done
+Progress bar is trash -- For Later
 
 Remove confidence threshold and prioritize character from settings.
 
