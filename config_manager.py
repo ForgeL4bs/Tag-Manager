@@ -5,7 +5,7 @@ from pathlib import Path
 CONFIG_DIR = Path.home() / ".waifu_tagger"
 CONFIG_PATH = CONFIG_DIR / "config.json"
 
-DEFAULT_CONFIG = {"threshold": 0.35, "include_rating": False, "character_first": False}
+DEFAULT_CONFIG = {"include_rating": False, "exclude_character": False}
 
 
 class ConfigManager:
