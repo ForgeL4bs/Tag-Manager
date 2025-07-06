@@ -183,8 +183,22 @@ class TaggingTab(QWidget):
         sorted_general, rating, sorted_character, general_res = self.tagger.predict(
             image, general_mcut=general_mcut, character_mcut=character_mcut
         )
-        # Combine general and character tags for output (like SmilingWolf)
-        tags = sorted_general + sorted_character
+        # Combine tags based on settings
+        config = config_manager.ConfigManager()
+        tags = []
+
+        # Include rating tags if enabled
+        if config.get("include_rating", False) and rating:
+            best_rating = max(rating.items(), key=lambda x: x[1])[0]
+            tags.append(best_rating)
+
+        # Always include general tags
+        tags.extend(sorted_general)
+
+        # Exclude character tags if enabled
+        if not config.get("exclude_character", False):
+            tags.extend(sorted_character)
+        
         self.tag_output.setText(", ".join(tags))
         self.progress_bar.setVisible(False)
 
