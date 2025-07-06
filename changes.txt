@@ -1,0 +1,21 @@
+What are the options in settings do? And can you implement them properly
+
+Editor is working fine
+Save tags button is not working -- done
+Settings menu options are not working
+Add more options like exclude character tags
+Preview is not fixed yet both Tagging and editor tab
+Progress bar is trash
+
+Remove confidence threshold and prioritize character from settings.
+
+Editor Tab:
+Add an option to close the folder
+
+Tagging Tab:
+Option to exclude tags which would be typed by the user in a input box. -- This feature can be for the next version.(For Ltr)
+
+Setup:
+Create a setup.bat
+Create a run.bat
+Create a update.bat
