@@ -1,5 +1,5 @@
 #!/bin/zsh
 
-python3 download_models.py
+python download_models.py
 
 read "REPLY?Press enter to continue..."
