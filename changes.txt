@@ -1,16 +1,14 @@
-What are the options in settings do? And can you implement them properly
-
-Editor is working fine
 Save tags button is not working -- done
-Settings menu options are not working
-Add more options like exclude character tags
+Settings menu options are not working --done
+Add more options like exclude character tags --done
 Preview is not fixed yet both Tagging and editor tab --done
+
 Progress bar is trash -- For Later
 
-Remove confidence threshold and prioritize character from settings.
+Remove confidence threshold and prioritize character from settings. --done
 
 Editor Tab:
-Add an option to close the folder
+Add an option to add a paticular tag to all the images and to their caption files. --done
 
 Tagging Tab:
 Option to exclude tags which would be typed by the user in a input box. -- This feature can be for the next version.(For Ltr)
