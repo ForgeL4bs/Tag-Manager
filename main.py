@@ -3,14 +3,11 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QTabWidget,
     QApplication,
-    QMenuBar,
-    QFileDialog,
 )
-from PySide6.QtGui import QAction
 import sys
 from ui.tagging_tab import TaggingTab
 from ui.editor_tab import EditorTab
-from ui.settings_dialog import SettingsDialog
+from ui.settings_tab import SettingsTab
 from pathlib import Path
 
 
@@ -28,24 +25,12 @@ class MainWindow(QMainWindow):
         self.tabs = QTabWidget()
         self.tagging_tab = TaggingTab(self.model_paths)
         self.editor_tab = EditorTab()
+        self.settings_tab = SettingsTab()
 
         self.tabs.addTab(self.tagging_tab, "Tagging")
         self.tabs.addTab(self.editor_tab, "Editor")
+        self.tabs.addTab(self.settings_tab, "Settings")
         self.setCentralWidget(self.tabs)
-
-        self.create_menu()
-
-    def create_menu(self):
-        menubar = self.menuBar()
-        settings_menu = menubar.addMenu("Settings")
-
-        open_settings_action = QAction("Preferences", self)
-        open_settings_action.triggered.connect(self.open_settings)
-        settings_menu.addAction(open_settings_action)
-
-    def open_settings(self):
-        dialog = SettingsDialog(self)
-        dialog.exec()
 
 
 if __name__ == "__main__":
