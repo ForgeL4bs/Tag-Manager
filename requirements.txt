@@ -3,3 +3,6 @@ onnx>=1.15.0
 onnxruntime>=1.17.0
 Pillow>=10.0.0
 numpy>=1.23
+pandas>=2.3.0
+tqdm==4.67.1
+requests
