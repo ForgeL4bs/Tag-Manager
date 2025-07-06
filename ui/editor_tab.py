@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QListWidgetItem,
 )
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
 from pathlib import Path
 import os
@@ -27,8 +28,8 @@ class EditorTab(QWidget):
 
     def init_ui(self):
         self.image_preview = QLabel("No image selected")
-        self.image_preview.setFixedSize(256, 256)
-        self.image_preview.setScaledContents(True)
+        self.image_preview.setMaximumSize(256, 256)
+        self.image_preview.setAlignment(Qt.AlignCenter)
 
         self.image_list = QListWidget()
         self.tag_list = QListWidget()
@@ -41,10 +42,26 @@ class EditorTab(QWidget):
         self.remove_global_button = QPushButton("Delete Tag From All")
 
         layout = QVBoxLayout()
+        # Column 1: Preview
+        preview_col = QVBoxLayout()
+        preview_col.addWidget(QLabel("Preview:"))
+        preview_col.addWidget(self.image_preview, stretch=1)
+
+        # Column 2: Images
+        images_col = QVBoxLayout()
+        images_col.addWidget(QLabel("Images:"))
+        images_col.addWidget(self.image_list, stretch=1)
+
+        # Column 3: Tags
+        tags_col = QVBoxLayout()
+        tags_col.addWidget(QLabel("Tags:"))
+        tags_col.addWidget(self.tag_list, stretch=1)
+
+        # Main row
         top_row = QHBoxLayout()
-        top_row.addWidget(self.image_preview)
-        top_row.addWidget(self.image_list)
-        top_row.addWidget(self.tag_list)
+        top_row.addLayout(preview_col, stretch=1)
+        top_row.addLayout(images_col)
+        top_row.addLayout(tags_col)
         layout.addLayout(top_row)
 
         controls = QHBoxLayout()
@@ -93,9 +110,17 @@ class EditorTab(QWidget):
             return
         filename = current.text()
         self.current_image_path = self.image_folder / filename
-        self.image_preview.setPixmap(
-            QPixmap(str(self.current_image_path)).scaled(256, 256)
-        )
+        pixmap = QPixmap(str(self.current_image_path))
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(
+                self.image_preview.width(),
+                self.image_preview.height(),
+                Qt.KeepAspectRatio,
+                Qt.SmoothTransformation,
+            )
+            self.image_preview.setPixmap(scaled_pixmap)
+        else:
+            self.image_preview.setText("Cannot load image")
         self.update_tag_list(filename)
 
     def update_tag_list(self, filename):
