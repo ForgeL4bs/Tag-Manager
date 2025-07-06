@@ -24,6 +24,7 @@ class EditorTab(QWidget):
         self.image_files = []
         self.current_image_path = None
         self.tags_map = {}  # filename -> set of tags
+        self.unsaved_changes = False
         self.init_ui()
 
     def init_ui(self):
@@ -40,6 +41,11 @@ class EditorTab(QWidget):
         self.add_tag_button = QPushButton("Add Tag")
         self.remove_tag_button = QPushButton("Remove Selected Tag")
         self.remove_global_button = QPushButton("Delete Tag From All")
+
+        self.add_tag_all_input = QLineEdit()
+        self.add_tag_all_input.setPlaceholderText("Tag to add to all captions")
+        self.add_tag_all_button = QPushButton("Add Tag to All")
+        self.add_tag_all_button.clicked.connect(self.add_tag_to_all_captions)
 
         layout = QVBoxLayout()
         # Column 1: Preview
@@ -71,6 +77,8 @@ class EditorTab(QWidget):
         controls.addWidget(self.add_tag_button)
         controls.addWidget(self.remove_tag_button)
         controls.addWidget(self.remove_global_button)
+        controls.addWidget(self.add_tag_all_input)
+        controls.addWidget(self.add_tag_all_button)
         layout.addLayout(controls)
 
         self.setLayout(layout)
@@ -136,6 +144,29 @@ class EditorTab(QWidget):
         self.tags_map[filename].add(tag)
         self.update_tag_list(filename)
         self.add_tag_input.clear()
+        self.unsaved_changes = True
+
+    def add_tag_to_all_captions(self):
+        tag = self.add_tag_all_input.text().strip()
+        if not tag:
+            QMessageBox.warning(self, "No Tag", "Please enter a tag to add.")
+            return
+
+        added_count = 0
+        for image_file in self.image_files:
+            tags = self.tags_map.get(image_file.name, set())
+            if tag not in tags:
+                tags.add(tag)
+                self.tags_map[image_file.name] = tags
+                added_count += 1
+                self.unsaved_changes = True
+
+        # Refresh tag list if current image is shown
+        if self.current_image_path:
+            self.update_tag_list(self.current_image_path.name)
+
+        QMessageBox.information(self, "Done", f"Added tag '{tag}' to {added_count} images.")
+        self.add_tag_all_input.clear()
 
     def remove_tag(self):
         selected_items = self.tag_list.selectedItems()
@@ -144,6 +175,7 @@ class EditorTab(QWidget):
         filename = self.current_image_path.name
         for item in selected_items:
             self.tags_map[filename].discard(item.text())
+            self.unsaved_changes = True
         self.update_tag_list(filename)
 
     def delete_tag_globally(self):
@@ -153,6 +185,7 @@ class EditorTab(QWidget):
         tag_to_remove = selected_items[0].text()
         for filename in self.tags_map:
             self.tags_map[filename].discard(tag_to_remove)
+            self.unsaved_changes = True
         self.update_tag_list(self.current_image_path.name)
 
     def save_all_tags(self):
@@ -161,4 +194,5 @@ class EditorTab(QWidget):
             txt_path = file.with_suffix(".txt")
             with open(txt_path, "w", encoding="utf-8") as f:
                 f.write(", ".join(sorted(tags)))
+        self.unsaved_changes = False
         QMessageBox.information(self, "Success", "All tags saved.")
