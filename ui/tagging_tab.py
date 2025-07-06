@@ -46,12 +46,23 @@ class TaggingTab(QWidget):
         self.tag_button = QPushButton("Tag Image")
         self.save_button = QPushButton("Save Tags")
 
-        self.image_label = QLabel("No image loaded")
-        self.image_label.setFixedSize(256, 256)
-        self.image_label.setScaledContents(True)
+        self.image_label = QLabel()
+        self.image_label.setMinimumSize(128, 128)
+        self.image_label.setAlignment(Qt.AlignCenter)
 
         self.tag_output = QTextEdit()
         self.tag_output.setReadOnly(True)
+
+        image_and_tags = QHBoxLayout()
+        image_and_tags.addWidget(self.image_label,stretch=1)
+        tag_area = QVBoxLayout()
+        tag_area.addWidget(QLabel("Tags:"))
+        tag_area.addWidget(self.tag_output)
+        tag_widget = QWidget()
+        tag_widget.setLayout(tag_area)
+        tag_widget.setMaximumWidth(500)
+        image_and_tags.addWidget(tag_widget, stretch=1)
+
 
         self.bulk_input = QLineEdit()
         self.bulk_input.setPlaceholderText("Select folder for bulk tagging...")
@@ -104,9 +115,7 @@ class TaggingTab(QWidget):
 
         layout.addLayout(top_row)
         layout.addLayout(threshold_layout)
-        layout.addWidget(self.image_label)
-        layout.addWidget(QLabel("Tags:"))
-        layout.addWidget(self.tag_output)
+        layout.addLayout(image_and_tags)
         layout.addWidget(self.mcut_checkbox)
         layout.addWidget(self.progress_bar)
         layout.addLayout(bulk_layout)
