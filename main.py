@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QTabWidget,
     QApplication,
+    QMessageBox,
 )
 import sys
 from ui.tagging_tab import TaggingTab
@@ -31,6 +32,23 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(self.editor_tab, "Editor")
         self.tabs.addTab(self.settings_tab, "Settings")
         self.setCentralWidget(self.tabs)
+
+    def closeEvent(self, event):
+        if self.editor_tab.unsaved_changes:
+            reply = QMessageBox.question(
+                self,
+                "Unsaved Changes",
+                "You have unsaved changes in the Editor tab. Do you want to save before exiting?",
+                QMessageBox.Save | QMessageBox.Cancel,
+                QMessageBox.Save,
+            )
+            if reply == QMessageBox.Save:
+                self.editor_tab.save_all_tags()
+                event.accept()
+            else:
+                event.ignore()
+        else:
+            event.accept()
 
 
 if __name__ == "__main__":
