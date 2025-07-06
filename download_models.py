@@ -16,7 +16,7 @@ FILES_TO_DOWNLOAD = {
 
 def download_file(url: str, dest: Path):
     if dest.exists():
-        print(f"[✔ ]  {dest.name} already exists, skipping download.")
+        print(f"[✔]  {dest.name} already exists, skipping download.")
         return
 
     response = requests.get(url, stream=True)
