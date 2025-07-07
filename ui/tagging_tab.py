@@ -1,4 +1,3 @@
-# Tagging tab UI
 from PySide6.QtWidgets import (
     QWidget,
     QLabel,
@@ -54,7 +53,7 @@ class TaggingTab(QWidget):
         self.tag_output.setReadOnly(True)
 
         image_and_tags = QHBoxLayout()
-        image_and_tags.addWidget(self.image_label,stretch=1)
+        image_and_tags.addWidget(self.image_label, stretch=1)
         tag_area = QVBoxLayout()
         tag_area.addWidget(QLabel("Tags:"))
         tag_area.addWidget(self.tag_output)
@@ -62,7 +61,6 @@ class TaggingTab(QWidget):
         tag_widget.setLayout(tag_area)
         tag_widget.setMaximumWidth(500)
         image_and_tags.addWidget(tag_widget, stretch=1)
-
 
         self.bulk_input = QLineEdit()
         self.bulk_input.setPlaceholderText("Select folder for bulk tagging...")
@@ -73,7 +71,7 @@ class TaggingTab(QWidget):
 
         self.progress_bar = QProgressBar()
         self.progress_bar.setMinimum(0)
-        self.progress_bar.setMaximum(0)  # Indeterminate by default
+        self.progress_bar.setMaximum(0)
         self.progress_bar.setVisible(False)
 
         self.mcut_checkbox = QCheckBox("Use MCut Thresholding")
@@ -183,22 +181,22 @@ class TaggingTab(QWidget):
         sorted_general, rating, sorted_character, general_res = self.tagger.predict(
             image, general_mcut=general_mcut, character_mcut=character_mcut
         )
-        # Combine tags based on settings
+        # combine tags based on config settings
         config = config_manager.ConfigManager()
         tags = []
 
-        # Include rating tags if enabled
+        # include rating tags if enabled
         if config.get("include_rating", False) and rating:
             best_rating = max(rating.items(), key=lambda x: x[1])[0]
             tags.append(best_rating)
 
-        # Always include general tags
+        # always include general tags
         tags.extend(sorted_general)
 
-        # Exclude character tags if enabled
+        # exclude character tags if enabled
         if not config.get("exclude_character", False):
             tags.extend(sorted_character)
-        
+
         self.tag_output.setText(", ".join(tags))
         self.progress_bar.setVisible(False)
 
@@ -211,7 +209,7 @@ class TaggingTab(QWidget):
         from bulk.bulk_processor import bulk_tag_images
 
         input_dir = Path(self.bulk_input.text())
-        output_dir = input_dir  # Save .txt files in the same folder
+        output_dir = input_dir
         if not input_dir.exists():
             self.tag_output.setText("Invalid folder path.")
             return

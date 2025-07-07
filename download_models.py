@@ -6,7 +6,7 @@ from tqdm import tqdm
 MODEL_DIR = Path("models")
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
-# URLs for models and tags (ensure these match current HF repo layout)
+# urls for models and csv file
 FILES_TO_DOWNLOAD = {
     "wd-vit-tagger-v3.onnx": "https://huggingface.co/SmilingWolf/wd-vit-tagger-v3/resolve/main/model.onnx",
     "wd-vit-large-tagger-v3.onnx": "https://huggingface.co/SmilingWolf/wd-vit-large-tagger-v3/resolve/main/model.onnx",

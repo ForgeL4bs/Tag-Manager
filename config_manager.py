@@ -1,4 +1,3 @@
-# Config manager
 import json
 from pathlib import Path
 

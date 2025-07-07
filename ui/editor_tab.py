@@ -1,4 +1,3 @@
-# Editor tab UI
 from PySide6.QtWidgets import (
     QWidget,
     QLabel,
@@ -23,7 +22,7 @@ class EditorTab(QWidget):
         self.image_folder = None
         self.image_files = []
         self.current_image_path = None
-        self.tags_map = {}  # filename -> set of tags
+        self.tags_map = {}
         self.unsaved_changes = False
         self.init_ui()
 
@@ -48,22 +47,22 @@ class EditorTab(QWidget):
         self.add_tag_all_button.clicked.connect(self.add_tag_to_all_captions)
 
         layout = QVBoxLayout()
-        # Column 1: Preview
+        # column 1: Preview
         preview_col = QVBoxLayout()
         preview_col.addWidget(QLabel("Preview:"))
         preview_col.addWidget(self.image_preview, stretch=1)
 
-        # Column 2: Images
+        # column 2: Images
         images_col = QVBoxLayout()
         images_col.addWidget(QLabel("Images:"))
         images_col.addWidget(self.image_list, stretch=1)
 
-        # Column 3: Tags
+        # column 3: Tags
         tags_col = QVBoxLayout()
         tags_col.addWidget(QLabel("Tags:"))
         tags_col.addWidget(self.tag_list, stretch=1)
 
-        # Main row
+        # main row
         top_row = QHBoxLayout()
         top_row.addLayout(preview_col, stretch=1)
         top_row.addLayout(images_col)
@@ -161,11 +160,12 @@ class EditorTab(QWidget):
                 added_count += 1
                 self.unsaved_changes = True
 
-        # Refresh tag list if current image is shown
         if self.current_image_path:
             self.update_tag_list(self.current_image_path.name)
 
-        QMessageBox.information(self, "Done", f"Added tag '{tag}' to {added_count} images.")
+        QMessageBox.information(
+            self, "Done", f"Added tag '{tag}' to {added_count} images."
+        )
         self.add_tag_all_input.clear()
 
     def remove_tag(self):

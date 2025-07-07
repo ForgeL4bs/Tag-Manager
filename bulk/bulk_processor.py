@@ -1,4 +1,3 @@
-# Bulk tagging logic
 from pathlib import Path
 from PIL import Image
 from tagger.model_runner import ONNXTagger
