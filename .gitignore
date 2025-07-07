@@ -13,3 +13,6 @@ venv/
 *.onnx
 *.csv
 
+setup.bat
+setup.sh
+
