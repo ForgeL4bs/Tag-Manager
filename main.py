@@ -1,10 +1,11 @@
-# Entry point
+# entry point
 from PySide6.QtWidgets import (
     QMainWindow,
     QTabWidget,
     QApplication,
     QMessageBox,
 )
+from PySide6.QtGui import QIcon
 import sys
 from ui.tagging_tab import TaggingTab
 from ui.editor_tab import EditorTab
@@ -15,8 +16,14 @@ from pathlib import Path
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Waifu Diffusion Tagger")
+        self.setWindowTitle("Tag-Manager")
         self.resize(1000, 600)
+
+        icon_path = Path("assets/logo.png")
+        if icon_path.exists():
+            self.setWindowIcon(QIcon(str(icon_path)))
+        else:
+            print("⚠️ Icon file not found:", icon_path)
 
         self.model_paths = {
             "wd-vit-tagger-v3": Path("models/wd-vit-tagger-v3.onnx"),
