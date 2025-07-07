@@ -4,6 +4,10 @@
 
 A desktop GUI application to **tag images** using the WaifuDiffusion-tagger models by [SmilingWolf](https://huggingface.co/SmilingWolf). Built with **Python** and UI in **PySide6**, it supports **single and batch tagging**, as well as a **tag editor** to manage tags efficiently.
 
+<p align="center">
+  <img src="assets/demo.gif" alt="Demo GIF" width="100%">
+</p>
+
 ---
 
 ## Table of Contents
