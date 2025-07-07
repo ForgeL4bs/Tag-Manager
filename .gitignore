@@ -8,7 +8,6 @@ venv/
 *.pyd
 
 *.jpg
-*.png
 
 *.onnx
 *.csv
